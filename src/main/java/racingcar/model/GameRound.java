@@ -1,9 +1,8 @@
 package racingcar.model;
 
-public class GameRound {
-    public static final String ERROR_MESSAGE_ROUND_IS_NONE_NUMERIC = "시도 횟수는 숫자여야 합니다.";
-    public static final String ERROR_MESSAGE_ROUND_IS_ZERO = "시도 횟수는 0이상으로 입력해주세요.";
+import racingcar.util.Message;
 
+public class GameRound {
     private final int round;
 
     public GameRound(String inputRound) {
@@ -19,13 +18,13 @@ public class GameRound {
 
     private void validNumeric(String inputRound) {
         if (isNoneNumeric(inputRound)) {
-            throw new IllegalArgumentException(ERROR_MESSAGE_ROUND_IS_NONE_NUMERIC);
+            throw new IllegalArgumentException(Message.ERROR_ROUND_IS_NONE_NUMERIC.getMessage());
         }
     }
 
     private static void validZero(int intRound) {
         if (isZero(intRound)) {
-            throw new IllegalArgumentException(ERROR_MESSAGE_ROUND_IS_ZERO);
+            throw new IllegalArgumentException(Message.ERROR_ROUND_IS_ZERO.getMessage());
         }
     }
 

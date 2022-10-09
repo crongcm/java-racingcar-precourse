@@ -14,10 +14,10 @@ class CarNameTest {
     void car_name_test_less_than_5_characters_valid_error() {
         assertThatThrownBy(() -> new CarName(""))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(CarName.ERROR_MESSAGE_VALID_CAR_NAME);
+                .hasMessage("자동차 이름은 1자 이상 5자 이하로 입력하세요.");
         assertThatThrownBy(() -> new CarName("sonata"))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(CarName.ERROR_MESSAGE_VALID_CAR_NAME);
+                .hasMessage("자동차 이름은 1자 이상 5자 이하로 입력하세요.");
     }
 
     @ParameterizedTest

@@ -1,8 +1,9 @@
 package racingcar.model;
 
+import racingcar.util.Message;
+
 public class PlayResult {
     public static final String LINE_SEPARATOR = "line.separator";
-    public static final String VICTORY_PREFIX = "최종 우승자 : ";
 
     private String roundResult;
     private String gameResult;
@@ -17,7 +18,7 @@ public class PlayResult {
     }
 
     public void gameResult(Winners winners) {
-        this.gameResult = VICTORY_PREFIX + winners.getWinners();
+        this.gameResult = Message.VICTORY_PREFIX.getMessage() + winners.getWinners();
     }
 
     public String getRoundResult() {

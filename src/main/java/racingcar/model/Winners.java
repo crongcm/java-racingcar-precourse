@@ -3,6 +3,8 @@ package racingcar.model;
 import java.util.List;
 
 public class Winners {
+    public static final String DELIMITER = ", ";
+
     private final List<String> winners;
 
     public Winners(List<String> carNames) {
@@ -10,6 +12,6 @@ public class Winners {
     }
 
     public String getWinners() {
-        return String.join(", ", winners);
+        return String.join(DELIMITER, winners);
     }
 }
