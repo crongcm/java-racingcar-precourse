@@ -32,9 +32,26 @@ class CarsTest {
     @Test
     @DisplayName("자동차_이름_공백_불가능")
     void car_name_cannot_be_blank() {
+        assertThatThrownBy(() -> new Cars(",crong,pobi"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("자동차 이름을 입력해주세요.(공백 불가)");
+    }
+
+    @Test
+    @DisplayName("자동차_이름_,,_불가능")
+    void car_name_duplicate_separator_error() {
         assertThatThrownBy(() -> new Cars("crong,,pobi"))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("자동차 이름은 1자 이상 5자 이하로 입력하세요.");
+                .hasMessage("구분자(,)는 중복될 수 없습니다.");
+    }
+
+    @Test
+    @DisplayName("자동차_둘_이상_참여")
+    void car_2_or_more_participate() {
+        assertThatThrownBy(() -> new Cars("crong"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("최소 참가 인원은 2명입니다.");
+        assertThat(new Cars("pobi,crong").getCars()).hasSize(2);
     }
 
     @Test

@@ -3,6 +3,8 @@ package racingcar.model;
 import racingcar.util.Message;
 
 public class GameRound {
+    public static final int MINIMUM_GAME_ROUND = 1;
+
     private final int round;
 
     public GameRound(String inputRound) {
@@ -12,7 +14,7 @@ public class GameRound {
         this.round = intRound;
     }
 
-    private static int convertInt(String inputRound) {
+    private int convertInt(String inputRound) {
         return Integer.parseInt(inputRound);
     }
 
@@ -22,7 +24,7 @@ public class GameRound {
         }
     }
 
-    private static void validZero(int intRound) {
+    private void validZero(int intRound) {
         if (isZero(intRound)) {
             throw new IllegalArgumentException(Message.ERROR_ROUND_IS_ZERO.getMessage());
         }
@@ -32,8 +34,8 @@ public class GameRound {
         return !inputRound.chars().allMatch(Character::isDigit);
     }
 
-    private static boolean isZero(int intRound) {
-        return intRound == 0;
+    private boolean isZero(int intRound) {
+        return intRound < MINIMUM_GAME_ROUND;
     }
 
     public int getRound() {
