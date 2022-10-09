@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 
 class CarTest {
     @Test
-    @DisplayName("자동차_이름_하이픈_반환")
+    @DisplayName("자동차_상태_이름_하이픈_반환")
     void car_status() {
         Car car = new Car(new CarName("crong"), new CarPosition(2));
-        assertThat(car.toString()).contains("crong : --");
+        assertThat(car.getState()).contains("crong : --");
     }
 
     @RepeatedTest(10)

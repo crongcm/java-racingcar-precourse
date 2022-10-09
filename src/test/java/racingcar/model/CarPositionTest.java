@@ -13,7 +13,7 @@ class CarPositionTest {
     @DisplayName("자동차_위치_수_하이픈_반환")
     void car_position(int position, String hyphen) {
         CarPosition carPosition = new CarPosition(position);
-        assertThat(carPosition.toString()).isEqualTo(hyphen);
+        assertThat(carPosition.convertHyphen()).isEqualTo(hyphen);
     }
     
     @Test

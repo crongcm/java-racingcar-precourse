@@ -22,8 +22,7 @@ public class CarPosition {
         return position;
     }
 
-    @Override
-    public String toString() {
+    public String convertHyphen() {
         StringBuilder moveCount = new StringBuilder();
         for (int i = 0; i < this.position; i++) {
             moveCount.append(HYPHEN);

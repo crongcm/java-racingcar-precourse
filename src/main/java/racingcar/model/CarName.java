@@ -20,9 +20,4 @@ public class CarName {
             throw new IllegalArgumentException(ERROR_MESSAGE_VALID_CAR_NAME);
         }
     }
-
-    @Override
-    public String toString() {
-        return name;
-    }
 }

@@ -33,8 +33,7 @@ public class Car {
         return position;
     }
 
-    @Override
-    public String toString() {
-        return this.getName().toString() + " : " + this.getPosition().toString();
+    public String getState() {
+        return this.getName().getName() + " : " + this.getPosition().convertHyphen();
     }
 }
