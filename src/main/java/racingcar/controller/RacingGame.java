@@ -3,6 +3,7 @@ package racingcar.controller;
 import racingcar.model.Cars;
 import racingcar.model.GameRound;
 import racingcar.model.PlayResult;
+import racingcar.model.RandomMovingStrategy;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -30,7 +31,7 @@ public class RacingGame {
 
     private void play() {
         for (int i = 0; i < gameRound.getRound(); i++) {
-            PlayResult roundResult = cars.playRound();
+            PlayResult roundResult = cars.playRound(new RandomMovingStrategy());
             OutputView.print(roundResult.getRoundResult());
         }
         PlayResult gameResult = cars.finishGame();

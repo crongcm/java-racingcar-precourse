@@ -1,45 +1,21 @@
 package racingcar.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import racingcar.util.Message;
+import java.util.stream.Collectors;
+
+import racingcar.util.ValidUtils;
 
 public class Cars {
-    public static final int MINIMUM_PARTICIPATE_CAR_COUNT = 2;
-    public static final String CAR_NAME_SEPARATOR = ",";
+    private static final String LINE_SEPARATOR = "line.separator";
 
     private final List<Car> cars;
 
     public Cars(String inputCarNames) {
-        validDuplicateSeparator(inputCarNames);
-        String[] carNames = validDuplicateName(inputCarNames);
-        validParticipateCarCount(carNames);
+        ValidUtils.validDuplicateSeparator(inputCarNames);
+        String[] carNames = ValidUtils.validDuplicateName(inputCarNames);
+        ValidUtils.validParticipateCarCount(carNames);
         this.cars = mapCars(carNames);
-    }
-
-    private void validParticipateCarCount(String[] carNames) {
-        if (carNames.length < MINIMUM_PARTICIPATE_CAR_COUNT) {
-            throw new IllegalArgumentException(Message.ERROR_MINIMUM_PARTICIPATE_CAR.getMessage());
-        }
-    }
-
-    private void validDuplicateSeparator(String inputCarNames) {
-        if (inputCarNames.contains(",,")) {
-            throw new IllegalArgumentException(Message.ERROR_CAR_NAME_DUPLICATE_SEPARATOR.getMessage());
-        }
-    }
-
-    private String[] validDuplicateName(String inputCarNames) {
-        String[] carNames = inputCarNames.split(CAR_NAME_SEPARATOR);
-        Set<String> distinctCarNames = new HashSet<>(Arrays.asList(carNames));
-        if (carNames.length != distinctCarNames.size()) {
-            throw new IllegalArgumentException(Message.ERROR_CAR_NAME_DUPLICATE.getMessage());
-        }
-        return carNames;
     }
 
     private List<Car> mapCars(String[] carNames) {
@@ -51,10 +27,24 @@ public class Cars {
         return newCars;
     }
 
-    public PlayResult playRound() {
+    public CarPosition getMaxPosition() {
+        CarPosition maxPosition = new CarPosition(0);
+        for (Car car : cars) {
+            maxPosition = car.maxPosition(maxPosition);
+        }
+        return maxPosition;
+    }
+
+    public Winners findWinners(CarPosition maxPosition) {
+        return new Winners(cars.stream()
+                .filter(car -> car.isWinner(maxPosition))
+                .collect(Collectors.toList()));
+    }
+
+    public PlayResult playRound(MovingStrategy movingStrategy) {
         PlayResult result = new PlayResult();
         for (Car car : cars) {
-            car.moveOrStop();
+            car.move(movingStrategy);
         }
         result.roundResult(this);
         return result;
@@ -62,29 +52,17 @@ public class Cars {
 
     public PlayResult finishGame() {
         PlayResult result = new PlayResult();
-        Winners winners = getWinners();
-        result.gameResult(winners);
+        result.gameResult(findWinners(getMaxPosition()));
         return result;
     }
 
-    public Winners getWinners() {
-        CarPosition topPosition = getTopPosition();
-        List<String> winners = new ArrayList<>();
-        for (Car car : cars) {
-            addWinner(winners, car, topPosition);
-        }
-        return new Winners(winners);
-    }
-
-    private void addWinner(List<String> winners, Car car, CarPosition topPosition) {
-        if (car.getPosition().equals(topPosition)) {
-            winners.add(car.getName().getName());
-        }
-    }
-
-    private CarPosition getTopPosition() {
-        cars.sort(Comparator.reverseOrder());
-        return cars.get(0).getPosition();
+    public String roundResult() {
+        StringBuilder roundState = new StringBuilder();
+        cars.forEach(car -> {
+            roundState.append(car.getState());
+            roundState.append(System.getProperty(LINE_SEPARATOR));
+        });
+        return roundState.toString();
     }
 
     public List<Car> getCars() {

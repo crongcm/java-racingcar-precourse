@@ -2,11 +2,11 @@ package racingcar.model;
 
 import java.util.Objects;
 
-public class CarPosition implements Comparable<CarPosition> {
+public class CarPosition {
     public static final int START_POSITION = 0;
     public static final String HYPHEN = "-";
 
-    private final int position;
+    private int position;
 
     public CarPosition() {
         this.position = START_POSITION;
@@ -16,8 +16,8 @@ public class CarPosition implements Comparable<CarPosition> {
         this.position = position;
     }
 
-    public CarPosition moveForward() {
-        return new CarPosition(this.position + 1);
+    public void moveForward() {
+        this.position++;
     }
 
     public String convertHyphen() {
@@ -26,6 +26,17 @@ public class CarPosition implements Comparable<CarPosition> {
             moveCount.append(HYPHEN);
         }
         return moveCount.toString();
+    }
+
+    public boolean isMaxPosition(CarPosition maxPosition) {
+        return this.equals(maxPosition);
+    }
+
+    public CarPosition comparePosition(CarPosition comparePosition) {
+        if (this.position > comparePosition.getPosition()) {
+            return this;
+        }
+        return comparePosition;
     }
 
     public int getPosition() {
@@ -47,10 +58,5 @@ public class CarPosition implements Comparable<CarPosition> {
     @Override
     public int hashCode() {
         return Objects.hash(position);
-    }
-
-    @Override
-    public int compareTo(CarPosition o) {
-        return Integer.compare(this.position, o.position);
     }
 }

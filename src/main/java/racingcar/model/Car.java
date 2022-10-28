@@ -1,38 +1,38 @@
 package racingcar.model;
 
 import java.util.Objects;
-import racingcar.util.RandomNumber;
 
-public class Car implements Comparable<Car> {
-    public static final int MOVE_CRITERIA = 4;
+public class Car {
     public static final String CAR_STATE_SEPARATOR = " : ";
 
     private final CarName name;
-    private CarPosition position;
+    private final CarPosition position;
 
     public Car(CarName name) {
         this.name = name;
         this.position = new CarPosition();
     }
 
-    public Car(CarName name, CarPosition position) {
-        this.name = name;
-        this.position = position;
-    }
-
-    public void moveOrStop() {
-        RandomNumber randomNumber = new RandomNumber();
-        if (randomNumber.getNumber() >= MOVE_CRITERIA) {
-            position = position.moveForward();
+    public void move(MovingStrategy movingStrategy) {
+        if (movingStrategy.movable()) {
+            position.moveForward();
         }
     }
 
-    public String getState() {
-        return this.getName().getName() + CAR_STATE_SEPARATOR + this.getPosition().convertHyphen();
+    public CarPosition maxPosition(CarPosition comparePosition) {
+        return this.position.comparePosition(comparePosition);
     }
 
-    public CarName getName() {
-        return name;
+    public boolean isWinner(CarPosition maxPosition) {
+        return position.isMaxPosition(maxPosition);
+    }
+
+    public String getState() {
+        return this.name() + CAR_STATE_SEPARATOR + this.position.convertHyphen();
+    }
+
+    public String name() {
+        return name.getName();
     }
 
     public CarPosition getPosition() {
@@ -54,10 +54,5 @@ public class Car implements Comparable<Car> {
     @Override
     public int hashCode() {
         return Objects.hash(name, position);
-    }
-
-    @Override
-    public int compareTo(Car car) {
-        return this.position.compareTo(car.position);
     }
 }

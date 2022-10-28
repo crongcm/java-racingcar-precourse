@@ -57,7 +57,7 @@ class CarsTest {
     @Test
     @DisplayName("자동차_게임_라운드_플레이_결과_반환")
     void play_cars() {
-        PlayResult result = cars.playRound();
+        PlayResult result = cars.playRound(new RandomMovingStrategy());
         assertThat(result.getRoundResult()).contains("pobi : ", "crong : ", "honux : ");
     }
 }
